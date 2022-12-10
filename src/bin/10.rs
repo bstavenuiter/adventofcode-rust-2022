@@ -44,7 +44,7 @@ pub fn part_two(input: &str) -> Option<String> {
     let mut cycle = 0;
     let mut instr: Vec<&str> = vec![];
     let mut sig_strs: Vec<i32> = vec![];
-    let mut current = "";
+    let mut current = "noop";
     let mut out: String = "".to_string();
 
     for line in input.lines().rev() {
@@ -65,16 +65,11 @@ pub fn part_two(input: &str) -> Option<String> {
             out += "\n";
         }
 
-        if current == "" {
+        if current == "noop" {
             current = instr.pop().unwrap();
-            if current == "noop" {
-                current = "";
-            }
         } else {
-            if current != "noop" {
-                x += current.split_once(" ").unwrap().1.parse::<i32>().unwrap();
-            }
-            current = "";
+            x += current.split_once(" ").unwrap().1.parse::<i32>().unwrap();
+            current = "noop";
         }
 
         if cycle > 1_000_000 {
