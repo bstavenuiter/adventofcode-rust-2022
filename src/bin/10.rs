@@ -7,7 +7,7 @@ pub fn part_one(input: &str) -> Option<i32> {
     let mut value_check_at = 20;
     let mut instr: Vec<&str> = vec![];
     let mut sig_strs: Vec<i32> = vec![];
-    let mut current = "";
+    let mut current = "noop";
 
     for line in input.lines().rev() {
         instr.push(line);
@@ -16,22 +16,16 @@ pub fn part_one(input: &str) -> Option<i32> {
     while instr.len() > 0 {
         cycle = cycle + 1;
 
-        // println!("{cycle} - {current} - {x} ({value_check_at})");
         if cycle == value_check_at {
             sig_strs.push(cycle*x);
             value_check_at += 40;
         }
 
-        if current == "" {
+        if current == "noop" {
             current = instr.pop().unwrap();
-            if current == "noop" {
-                current = "";
-            }
         } else {
-            if current != "noop" {
-                x += current.split_once(" ").unwrap().1.parse::<i32>().unwrap();
-            }
-            current = "";
+            x += current.split_once(" ").unwrap().1.parse::<i32>().unwrap();
+            current = "noop";
         }
 
         if cycle > 1_000_000 {
